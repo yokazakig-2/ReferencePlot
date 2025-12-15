@@ -2,8 +2,16 @@ from ROOT import TGraph, TCanvas, kRed, kBlue, TLegend, TText
 import ctypes
 
 #Input CSV file
-inf=open("ARTBL_2025_May_Beam_Rate_AR6p5GeV.csv","r")
+DataDir="Data/"
+InputFileName="ARTBL_2025_May_Beam_Rate_AR6p5GeV.csv"
+inf=open(DataDir+InputFileName,"r")
 lines=inf.readlines()
+
+OUTDir="PDF/"
+OUTT0Name=InputFileName
+OUTT0Name=OUTT0Name.replace(".csv","_T0rate.pdf")
+OUTT04Name=InputFileName
+OUTT04Name=OUTT04Name.replace(".csv","_T04rate.pdf")
 
 gro=TGraph(100)
 gro.SetName("Open")
@@ -97,7 +105,7 @@ for ilabel in labels:
 	ilabel.Draw()
 
 c.Update()
-c.SaveAs("T0_rate.pdf")
+c.SaveAs(OUTDir+OUTT0Name)
 gro4.GetXaxis().SetTitle("[GeV]")
 gro4.GetYaxis().SetTitle("T0&T4 rate [Hz]")
 gro4.Draw("APL")
@@ -148,4 +156,4 @@ for ilabel in labels:
 	ilabel.Draw()
 
 c.Update()
-c.SaveAs("T0T4_rate.pdf")
+c.SaveAs(OUTDir+OUTT04Name)
