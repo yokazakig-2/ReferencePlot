@@ -3,7 +3,7 @@ import ctypes
 
 #Input CSV file
 DataDir="Data/"
-InputFileName="ARTBL_2025_May_Beam_Rate_AR6p5GeV.csv"
+InputFileName="ARTBL_2025_June_Beam_Rate_AR5p0GeV.csv"
 inf=open(DataDir+InputFileName,"r")
 lines=inf.readlines()
 
