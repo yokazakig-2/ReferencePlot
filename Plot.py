@@ -1,6 +1,7 @@
 from ROOT import TGraph, TCanvas, kRed, kBlue, TLegend, TText
 import ctypes
 
+#Input CSV file
 inf=open("ARTBL_2025_May_Beam_Rate_AR6p5GeV.csv","r")
 lines=inf.readlines()
 
