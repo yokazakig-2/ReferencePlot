@@ -263,7 +263,7 @@ Double_t lgg( Double_t *xx, Double_t *par ){
 }
 
 // Main routine
-void tracking4(TString runnumber="904", Int_t full = 1 ){
+void tracking(TString runnumber="904", Int_t full = 1 ){
 
   Int_t runno0 = atoi(runnumber );
   Int_t runno1 = runno0+1;
