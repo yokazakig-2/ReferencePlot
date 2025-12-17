@@ -280,6 +280,11 @@ void tracking(TString runnumber="904", Int_t full = 1 ){
   if( runno0 == 996 ) N_files = 3;
   
   Int_t LG_on = 1;
+  Float_t LG_offset = 2.27292;
+  Float_t LG_slope = 47.4055;
+  Float_t LG_plot_offset = 2.28;
+  Float_t LG_async_cut = 0.2;
+  Float_t LG_1bin_energy = 0.12;
   if( runno0 < 900 ) LG_on = 0;
 
   Int_t ON_stg = 0;
@@ -2184,12 +2189,19 @@ void tracking(TString runnumber="904", Int_t full = 1 ){
 	  x25m_j0w1_LG->Fill( px25j0, 512- peak );
 	  y13m_j0w1_LG->Fill( py13j0, 512- peak );
 
-	  for( Int_t i = 0; i < 13; i++ ){
+	  /*for( Int_t i = 0; i < 13; i++ ){
 	    if( (512 - peak ) >= PHth[i] && (512 - peak ) < PHth[i+1] ){
 	      xy25m_13mj0w1_E[i]->Fill( px25j0, py13j0 );
 	      break;
 	    }
 	  }// for end
+	  */
+	int LGconvert = int(((float(512-peak)-LG_offset)/LG_slope-LG_plot_offset)/LG_1bin_energy);
+	if((float(512-peak)-LG_offset)/LG_slope > 0.2){
+	if(LGconvert < 0) LGconvert = 0;
+	else if(LGconvert > 9) LGconvert = 9;
+	xy25m_13mj0w1_E[LGconvert]->Fill( px25j0, py13j0 );
+	}
 	  if( (512 - peak ) < PHcth[0] )
 	    xy25m_13mj0w1_cE[0]->Fill( px25j0, py13j0 );
 	  if( (512 - peak ) >= PHcth[0] && (512 - peak ) < PHcth[1] )
@@ -2239,12 +2251,19 @@ void tracking(TString runnumber="904", Int_t full = 1 ){
 	  x25m_j1w0_LG->Fill( px25j1, 512- peak );
 	  y13m_j1w0_LG->Fill( py13j1, 512- peak );
 
-	  for( Int_t i = 0; i < 13; i++ ){
+	  /*for( Int_t i = 0; i < 13; i++ ){
 	    if( (512 - peak ) >= PHth[i] && (512 - peak ) < PHth[i+1] ){
 	      xy25m_13mj1w0_E[i]->Fill( px25j1, py13j1 );
 	      break;
 	    }
 	  }// for end
+	 */
+	int LGconvert1 = int(((float(512-peak)-LG_offset)/LG_slope-LG_plot_offset)/LG_1bin_energy);
+	if((float(512-peak)-LG_offset)/LG_slope > 0.2){
+	if(LGconvert1 < 0) LGconvert1 = 0;
+	else if(LGconvert1 > 9) LGconvert1 = 9;
+	xy25m_13mj1w0_E[LGconvert1]->Fill( px25j1, py13j1 );
+	}
 	  if( (512 - peak ) < PHcth[0] )
 	    xy25m_13mj1w0_cE[0]->Fill( px25j1, py13j1 );
 	  if( (512 - peak ) >= PHcth[0] && (512 - peak ) < PHcth[1] )
@@ -6011,6 +6030,12 @@ void tracking(TString runnumber="904", Int_t full = 1 ){
   cout->cd(4)->SetRightMargin(0.2);
   xdx25m_13mj1_j0->SetStats(0);
   xdx25m_13mj1_j0->Draw("COLZ");
+  xy25m_13mj0w1->Write();
+  xy25m_13mj1w0->Write();
+  for(int ii = 0; ii < 13; ii++){
+	  xy25m_13mj0w1_E[ii]->Write();
+	  xy25m_13mj1w0_E[ii]->Write();
+  }
 //cout->Print(pdf_tracking);
 
   fout->Close();
